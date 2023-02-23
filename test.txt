@@ -1,1 +1,10 @@
 测试提交
+    
+    流程
+	找到Git Bash  
+	cd 到当前文件夹所在位置
+	git add .
+	git commit -m “xxx”
+	git push -u origin master
+	yes
+	密码 Jiangyanqing1
