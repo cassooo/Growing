@@ -1,0 +1,142 @@
+#pragma once
+
+#include<iostream>
+using namespace std;
+
+template<class K, class V>
+struct AVLTreeNode
+{
+    pair< K, L> _kv;
+    AVLTreeNode< K, L>* _left;
+    AVLTreeNode< K, L>* _right;
+    AVLTreeNode< K, L>* _parent;
+
+    int _bf;    //平衡因子
+
+    AVLTreeNode(const pair<K, V>& kv)
+        :_kv(kv)
+        ,_left(nullptr)
+        , _right(nullptr)
+        ,_parent(nullptr)
+        ,_bf(0);
+};
+
+template<class K, class V>
+class AVLTree
+{
+    typedef  AVLTreeNode< K, L> Node;
+piblic:
+    bool Insert(const pair<K, V>& kv)
+    {
+        if(_root == nullptr)
+        {
+            _root = new Node(kv);
+            return true;
+        }
+
+        Node* cur = _root;
+        while(cur)
+        {
+            if(cur->kv.first < kv.first)
+            {
+                parent = cur;
+                cur = cur->_right;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        cur = new Node(kv);
+        if(parent->kv.first < kv.first)
+        {
+            parent->_right = cur;
+        }
+        else
+        {
+            parent->_left = cur;
+        }
+
+        cur->_parent = parent;
+
+        //...... 控制平衡
+        //更新平衡
+        while(parent)
+        {
+            if(cur == parent->_left)
+            {
+                parent->bf--;
+            }
+            else         // if(cur == parent->_right)
+            {
+                parent->bf++;
+            }
+            if(parent->_bf == 0)
+            {
+                //更新结束
+                break;
+            }
+            else if(parent->_bf == 1 || parent->_bf == -1)
+            {
+                //继续往上更新
+                cur = parent;
+                parent = parent->_parent;
+            }
+            else if(parent->_bf == 2 || parent->_bf == -2)
+            {
+                //子树不平衡了，需要旋转
+                if(parent->_bf ==2 || cur->bf == 2)
+                {
+                    kdf
+                }
+            }
+            else
+            {
+                assert(false);
+            }
+        }
+
+        return true;
+    }
+
+    void RotateL(Node* parent)
+    {
+        Node* cur = parent->_right;
+        Node* curleft = cur->_left;
+
+        parent->_right = curleft;
+        if(curleft)
+        {
+            curleft->_parent = parent;
+        }
+        cur->_left = parent;
+
+        Node* ppnode = parent->_parent;
+
+        parent->_parent = cur;
+
+        if(parent == _root)
+        {
+            _root = cur;
+            cur->_parent = nullptr;
+        }
+        else
+        {
+            if(ppnode->_left == parent)
+            {
+                ppnode->_left = cur;
+            }
+            else
+            {
+                ppnode->_right = cur;
+            }
+
+            cur->_parent = ppnode;
+        }
+        parent->_bf = cur->_bf = 0; 
+    } 
+
+private:
+    Node* _root = nullptr;
+};
